@@ -49,3 +49,40 @@ Features:-
   - Responsive tabbed interface with automatic UI updates  
   - Lightweight single-file design for easy distribution and use
 
+Technologies/Tools Used:-
+
+- **Python 3.13.9** – Core programming language  
+- **Tkinter** – Standard Python GUI library for building the desktop interface, including ttk for modern-styled widgets and themed components.  
+- **pandas** – Powerful data analysis library used for in-memory storage, manipulation, filtering, grouping, and aggregation of expense records via DataFrames.  
+- **Matplotlib** – Industry-standard plotting library for generating the embedded daily expense trend line chart.  
+- **FigureCanvasTkAgg** (from matplotlib.backends.backend_tkagg) – Backend that seamlessly integrates Matplotlib figures into the Tkinter window.  
+- **datetime & matplotlib.dates** – For robust date parsing, validation, and proper axis formatting in graphs.  
+- **tkinter.messagebox & filedialog** – Built-in dialogs for user feedback (success/error messages) and native file save/open operations during CSV export/import.
+
+### Steps to Install & Run the Project:-
+
+1. **Install Python 3**  
+   Ensure Python 3.7 or higher is installed on your system.  
+   Download from: https://www.python.org/downloads/
+
+2. **Install Required Libraries**  
+   Open a terminal/command prompt and run:  
+
+         pip install pandas matplotlib
+   
+   (Tkinter is included with standard Python installations.)
+
+4. **Save the Source Code**  
+   Copy the complete provided code into a new file named `Finances_manager.py`  
+   (or any name ending in `.py`).
+
+5. **Run the Application**  
+   In the terminal/command prompt, navigate to the folder containing the file and execute:  
+   
+   python Finances_manager.py
+   
+   Alternatively, double-click the file if your system is configured to run `.py` files with Python.
+
+The application window (titled "Finance Expense Management App") will launch immediately, sized at 800×600 pixels. No additional configuration or internet connection is required.
+
+**Note**: Data is stored in memory during the session. Use the "Export to CSV" feature before closing to save your expenses permanently.
