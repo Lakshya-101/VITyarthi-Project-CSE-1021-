@@ -1,5 +1,4 @@
 # README.md
-VITyarthi Project - 
 
 ### Project Title - Finance Expense management app
 
