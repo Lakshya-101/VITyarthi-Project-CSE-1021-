@@ -31,7 +31,7 @@ The project delivers a fully functional, standalone, offline desktop expense tra
 - Database storage (SQLite, etc.)
 - Currency conversion or receipt scanning
 
-###Target Users
+### Target Users:-
 
 **Primary Audience:** 
 College and university students managing limited and irregular budgets (pocket money, part-time earnings, scholarships).
