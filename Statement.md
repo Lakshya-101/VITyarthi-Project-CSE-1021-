@@ -1,4 +1,4 @@
-# statement.md
+# STATEMENT.md
 
 ### Problem Statement:-
 
