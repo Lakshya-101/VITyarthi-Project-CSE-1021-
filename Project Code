@@ -1,0 +1,261 @@
+###Main Project Code
+
+import tkinter as tk
+from tkinter import ttk, messagebox, filedialog
+import pandas as pd
+from datetime import datetime
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import matplotlib.dates as mdates
+
+class ExpenseManager:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Finance Expense Management App")
+        self.root.geometry("800x600")
+        
+        # Initialize DataFrame
+        self.expenses = pd.DataFrame(columns=['Date', 'Amount', 'Category', 'Description'])
+        
+        # Create notebook for tabs
+        self.notebook = ttk.Notebook(root)
+        self.notebook.pack(fill='both', expand=True)
+        
+        # Tab 1: Add Expense
+        self.add_tab = ttk.Frame(self.notebook)
+        self.notebook.add(self.add_tab, text="Add Expense")
+        self.create_add_expense_tab()
+        
+        # Tab 2: View Expenses
+        self.view_tab = ttk.Frame(self.notebook)
+        self.notebook.add(self.view_tab, text="View Expenses")
+        self.create_view_expenses_tab()
+        
+        # Tab 3: Analytics
+        self.analytics_tab = ttk.Frame(self.notebook)
+        self.notebook.add(self.analytics_tab, text="Analytics")
+        self.create_analytics_tab()
+        
+        # Tab 4: Export/Import
+        self.export_tab = ttk.Frame(self.notebook)
+        self.notebook.add(self.export_tab, text="Export/Import")
+        self.create_export_import_tab()
+    
+    def create_add_expense_tab(self):
+        ttk.Label(self.add_tab, text="Date (DD-MM-YYYY):").grid(row=0, column=0, padx=10, pady=10)
+        self.date_entry = ttk.Entry(self.add_tab)
+        self.date_entry.grid(row=0, column=1, padx=10, pady=10)
+        
+        ttk.Label(self.add_tab, text="Amount:").grid(row=1, column=0, padx=10, pady=10)
+        self.amount_entry = ttk.Entry(self.add_tab)
+        self.amount_entry.grid(row=1, column=1, padx=10, pady=10)
+        
+        ttk.Label(self.add_tab, text="Category:").grid(row=2, column=0, padx=10, pady=10)
+        self.category_var = tk.StringVar()
+        self.category_combo = ttk.Combobox(self.add_tab, textvariable=self.category_var, values=["Food", "Transportation", "Entertainment", "Utilities", "Other"])
+        self.category_combo.grid(row=2, column=1, padx=10, pady=10)
+        
+        ttk.Label(self.add_tab, text="Description:").grid(row=3, column=0, padx=10, pady=10)
+        self.desc_entry = ttk.Entry(self.add_tab)
+        self.desc_entry.grid(row=3, column=1, padx=10, pady=10)
+        
+        ttk.Button(self.add_tab, text="Add Expense", command=self.add_expense).grid(row=4, column=0, columnspan=2, pady=20)
+    
+    def add_expense(self):
+        try:
+            date_str = self.date_entry.get()
+            date = pd.to_datetime(date_str).date()  # Parse and convert to date
+            amount = float(self.amount_entry.get())
+            category = self.category_var.get()
+            description = self.desc_entry.get()
+            
+            if not category:
+                messagebox.showerror("Error", "Please select a category.")
+                return
+            
+            new_expense = pd.DataFrame({
+                'Date': [date],
+                'Amount': [amount],
+                'Category': [category],
+                'Description': [description]
+            })
+            self.expenses = pd.concat([self.expenses, new_expense], ignore_index=True)
+            messagebox.showinfo("Success", "Expense added!")
+            
+            # Clear fields
+            self.date_entry.delete(0, tk.END)
+            self.amount_entry.delete(0, tk.END)
+            self.desc_entry.delete(0, tk.END)
+            self.category_var.set("")
+        except ValueError as e:
+            messagebox.showerror("Error", f"Invalid input: {e}. Please check date format (DD-MM-YYYY) and amount.")
+    
+    def create_view_expenses_tab(self):
+        # Filters
+        ttk.Label(self.view_tab, text="Category:").grid(row=0, column=0, padx=10, pady=10)
+        self.filter_category_var = tk.StringVar(value="All")
+        self.filter_category_combo = ttk.Combobox(self.view_tab, textvariable=self.filter_category_var, values=["All"])
+        self.filter_category_combo.grid(row=0, column=1, padx=10, pady=10)
+        
+        ttk.Label(self.view_tab, text="Start Date (DD-MM-YYYY):").grid(row=1, column=0, padx=10, pady=10)
+        self.start_date_entry = ttk.Entry(self.view_tab)
+        self.start_date_entry.grid(row=1, column=1, padx=10, pady=10)
+        
+        ttk.Label(self.view_tab, text="End Date (DD-MM-YYYY):").grid(row=2, column=0, padx=10, pady=10)
+        self.end_date_entry = ttk.Entry(self.view_tab)
+        self.end_date_entry.grid(row=2, column=1, padx=10, pady=10)
+        
+        ttk.Button(self.view_tab, text="Apply Filters", command=self.apply_filters).grid(row=3, column=0, columnspan=2, pady=10)
+        
+        # Treeview for displaying expenses
+        self.tree = ttk.Treeview(self.view_tab, columns=('Date', 'Amount', 'Category', 'Description'), show='headings')
+        self.tree.heading('Date', text='Date')
+        self.tree.heading('Amount', text='Amount')
+        self.tree.heading('Category', text='Category')
+        self.tree.heading('Description', text='Description')
+        self.tree.grid(row=4, column=0, columnspan=2, padx=10, pady=10, sticky='nsew')
+        
+        # Scrollbar
+        scrollbar = ttk.Scrollbar(self.view_tab, orient=tk.VERTICAL, command=self.tree.yview)
+        self.tree.configure(yscroll=scrollbar.set)
+        scrollbar.grid(row=4, column=2, sticky='ns')
+        
+        # Summary
+        self.summary_label = ttk.Label(self.view_tab, text="")
+        self.summary_label.grid(row=5, column=0, columnspan=2, pady=10)
+        
+        # Update filters on tab change
+        self.notebook.bind("<<NotebookTabChanged>>", self.update_filters)
+    
+    def update_filters(self, event):
+        if self.notebook.index(self.notebook.select()) == 1:  # View tab
+            categories = ["All"] + list(self.expenses['Category'].unique()) if not self.expenses.empty else ["All"]
+            self.filter_category_combo['values'] = categories
+            if not self.expenses.empty:
+                self.start_date_entry.insert(0, str(self.expenses['Date'].min()))
+                self.end_date_entry.insert(0, str(self.expenses['Date'].max()))
+    
+    def apply_filters(self):
+        if self.expenses.empty:
+            messagebox.showinfo("Info", "No expenses to display.")
+            return
+        
+        try:
+            start_date = pd.to_datetime(self.start_date_entry.get()).date()
+            end_date = pd.to_datetime(self.end_date_entry.get()).date()
+        except ValueError:
+            messagebox.showerror("Error", "Invalid date format. Use DD-MM-YYYY.")
+            return
+        
+        filtered_df = self.expenses.copy()
+        category = self.filter_category_var.get()
+        
+        if category != "All":
+            filtered_df = filtered_df[filtered_df['Category'] == category]
+        filtered_df = filtered_df[(filtered_df['Date'] >= start_date) & (filtered_df['Date'] <= end_date)]
+        
+        # Clear tree
+        for i in self.tree.get_children():
+            self.tree.delete(i)
+        
+        # Populate tree
+        for _, row in filtered_df.iterrows():
+            self.tree.insert('', tk.END, values=(row['Date'], row['Amount'], row['Category'], row['Description']))
+        
+        # Update summary
+        total = filtered_df['Amount'].sum()
+        self.summary_label.config(text=f"Total Expenses: ₹{total:.2f}")
+    
+    def create_analytics_tab(self):
+        # Text area for analytics
+        self.analytics_text = tk.Text(self.analytics_tab, height=10, width=80)
+        self.analytics_text.pack(pady=10)
+        ttk.Button(self.analytics_tab, text="Generate Analytics", command=self.generate_analytics).pack(pady=5)
+        
+        # Frame for graph
+        self.graph_frame = ttk.Frame(self.analytics_tab)
+        self.graph_frame.pack(pady=10, fill='both', expand=True)
+        ttk.Button(self.analytics_tab, text="Generate Graph", command=self.generate_graph).pack(pady=5)
+    
+    def generate_analytics(self):
+        if self.expenses.empty:
+            self.analytics_text.delete(1.0, tk.END)
+            self.analytics_text.insert(tk.END, "No expenses to analyze.")
+            return
+        
+        self.analytics_text.delete(1.0, tk.END)
+        self.analytics_text.insert(tk.END, "Expense Analytics:\n\n")
+        
+        total = self.expenses['Amount'].sum()
+        avg = self.expenses['Amount'].mean()
+        self.analytics_text.insert(tk.END, f"Total Expenses: ₹{total:.2f}\n")
+        self.analytics_text.insert(tk.END, f"Average Expense: ₹{avg:.2f}\n\n")
+        
+        category_sum = self.expenses.groupby('Category')['Amount'].sum()
+        self.analytics_text.insert(tk.END, "Expenses by Category:\n")
+        for cat, amt in category_sum.items():
+            self.analytics_text.insert(tk.END, f"{cat}: ₹{amt:.2f}\n")
+    
+    def generate_graph(self):
+        if self.expenses.empty:
+            messagebox.showinfo("Info", "No expenses to graph.")
+            return
+        
+        # Clear previous graph
+        for widget in self.graph_frame.winfo_children():
+            widget.destroy()
+        
+        # Group by date and sum amounts
+        daily_expenses = self.expenses.groupby('Date')['Amount'].sum().reset_index()
+        daily_expenses = daily_expenses.sort_values('Date')
+        
+        # Create figure
+        fig, ax = plt.subplots(figsize=(8, 4))
+        ax.plot(daily_expenses['Date'], daily_expenses['Amount'], marker='o', linestyle='-')
+        ax.set_title('Daily Expenses Over Time')
+        ax.set_xlabel('Days (Date)')
+        ax.set_ylabel('Finances (Amount in ₹)')
+        ax.grid(True)
+        
+        # Format x-axis for dates
+        ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%m-%Y'))
+        fig.autofmt_xdate()
+        
+        # Embed in Tkinter
+        canvas = FigureCanvasTkAgg(fig, master=self.graph_frame)
+        canvas.draw()
+        canvas.get_tk_widget().pack(fill='both', expand=True)
+    
+    def create_export_import_tab(self):
+        ttk.Button(self.export_tab, text="Export to CSV", command=self.export_csv).pack(pady=10)
+        ttk.Button(self.export_tab, text="Import from CSV", command=self.import_csv).pack(pady=10)
+    
+    def export_csv(self):
+        if self.expenses.empty:
+            messagebox.showerror("Error", "No expenses to export.")
+            return
+        
+        file_path = filedialog.asksaveasfilename(defaultextension=".csv", filetypes=[("CSV files", "*.csv")])
+        if file_path:
+            self.expenses.to_csv(file_path, index=False)
+            messagebox.showinfo("Success", "Expenses exported to CSV!")
+    
+    def import_csv(self):
+        file_path = filedialog.askopenfilename(filetypes=[("CSV files", "*.csv")])
+        if file_path:
+            try:
+                df = pd.read_csv(file_path)
+                if set(df.columns) == set(['Date', 'Amount', 'Category', 'Description']):
+                    df['Date'] = pd.to_datetime(df['Date']).dt.date
+                    self.expenses = pd.concat([self.expenses, df], ignore_index=True)
+                    messagebox.showinfo("Success", "Expenses imported from CSV!")
+                else:
+                    messagebox.showerror("Error", "CSV must have columns: Date, Amount, Category, Description")
+            except Exception as e:
+                messagebox.showerror("Error", f"Failed to import: {e}")
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = ExpenseManager(root)
+    root.mainloop()
+
