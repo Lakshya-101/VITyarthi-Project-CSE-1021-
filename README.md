@@ -11,7 +11,7 @@ Features:-
 
 - **Add Expense**  
   User-friendly form to record expenses with automatic validation:  
-  - Date (YYYY-MM-DD format)  
+  - Date (DD-MM-YYYY format)  
   - Amount (numeric only)  
   - Predefined categories: Food, Transportation, Entertainment, Utilities, Other  
   - Optional description  
@@ -21,7 +21,7 @@ Features:-
   Interactive, sortable table displaying all recorded expenses with:  
   - Real-time filtering by category (including “All”) and custom date range  
   - Vertical scrollbar for large datasets  
-  - Dynamic total summary showing the sum of filtered expenses (e.g., “Total Expenses: $342.50”)  
+  - Dynamic total summary showing the sum of filtered expenses (e.g., “Total Expenses: ₹342.50”)  
   Category dropdown and date fields auto-populate with existing data when the tab is selected.
 
 - **Analytics**  
@@ -79,7 +79,7 @@ Technologies/Tools Used:-
 5. **Run the Application**  
    In the terminal/command prompt, navigate to the folder containing the file and execute:  
    
-   python Finances_manager.py
+       python Finances_manager.py
    
    Alternatively, double-click the file if your system is configured to run `.py` files with Python.
 
@@ -90,7 +90,7 @@ The application window (titled "Finance Expense Management App") will launch imm
 ### Instructions for Testing:-
 Follow these steps to thoroughly verify all functionalities of the application:
 
-1. **Basic Expense Addition**
+1.**Basic Expense Addition**
     Open the "Add Expense" tab.
     Enter a valid date (e.g., 07-11-2025), amount (e.g., 15.50), select a category (e.g., Food), and add a description.
     Click "Add Expense" → Confirm success message and cleared fields.
@@ -122,6 +122,3 @@ Follow these steps to thoroughly verify all functionalities of the application:
     Click "Import from CSV" → Select the saved file → Data should reload completely.
     Test invalid CSV (wrong columns or format) → Error message should appear.
 
-Edge Cases
-Start the app with no expenses → All tabs should handle empty state gracefully.
-Add expenses on the same date → Graph and analytics should aggregate correctly.
