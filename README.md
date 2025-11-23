@@ -1,2 +1,4 @@
 # VITyarthi-Project-CSE-1021
-VITyarthi Project 
+VITyarthi Project - Finance Expense management app
+
+
