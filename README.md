@@ -90,35 +90,35 @@ The application window (titled "Finance Expense Management App") will launch imm
 ### Instructions for Testing:-
 Follow these steps to thoroughly verify all functionalities of the application:
 
-1.**Basic Expense Addition**
-    Open the "Add Expense" tab.
-    Enter a valid date (e.g., 07-11-2025), amount (e.g., 15.50), select a category (e.g., Food), and add a description.
-    Click "Add Expense" → Confirm success message and cleared fields.
+  1.**Basic Expense Addition**
+      Open the "Add Expense" tab.
+      Enter a valid date (e.g., 07-11-2025), amount (e.g., 15.50), select a category (e.g., Food), and add a description.
+      Click "Add Expense" → Confirm success message and cleared fields.
 
-2.**Input Validation**
-    Try invalid inputs: wrong date format (e.g., 2025-11-07), non-numeric amount (e.g., abc), or no category selected.
-    Expected: Clear error messages appear via pop-up.
+  2.**Input Validation**
+      Try invalid inputs: wrong date format (e.g., 2025-11-07), non-numeric amount (e.g., abc), or no category selected.
+      Expected: Clear error messages appear via pop-up.
 
-3.**View & Filter Expenses**
-    Switch to "View Expenses" tab → Click "Apply Filters".
-    Table should display all added entries with correct total at the bottom.
+  3.**View & Filter Expenses**
+      Switch to "View Expenses" tab → Click "Apply Filters".
+      Table should display all added entries with correct total at the bottom.
     
-4.**Test filtering:**
-    Select a specific category → Only matching rows appear.
-    Set a narrow date range → Only expenses within that period are shown.
+  4.**Test filtering:**
+      Select a specific category → Only matching rows appear.
+      Set a narrow date range → Only expenses within that period are shown.
 
-5.**Analytics**
+  5.**Analytics**
       Add 5–10 expenses across different dates and categories.
       Go to "Analytics" tab → Click "Generate Analytics".
       Verify: Total, average, and category breakdown are accurate.
 
-6.**Graph Generation**
+  6.**Graph Generation**
       In "Analytics" tab, click "Generate Graph".
       A line chart should appear showing daily totals with properly labeled and rotated dates.
 
-7.**Data Persistence (Export/Import)**
-    Go to "Export/Import" → Click "Export to CSV" → Save the file.
-    Close and restart the app (data should be gone).
-    Click "Import from CSV" → Select the saved file → Data should reload completely.
-    Test invalid CSV (wrong columns or format) → Error message should appear.
+  7.**Data Persistence (Export/Import)**
+      Go to "Export/Import" → Click "Export to CSV" → Save the file.
+      Close and restart the app (data should be gone).
+      Click "Import from CSV" → Select the saved file → Data should reload completely.
+      Test invalid CSV (wrong columns or format) → Error message should appear.
 
