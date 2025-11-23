@@ -1,4 +1,4 @@
-# VITyarthi-Project-CSE-1021
+# README.md
 VITyarthi Project - 
 
 ### Project Title - Finance Expense management app
