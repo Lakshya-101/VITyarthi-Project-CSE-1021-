@@ -39,3 +39,25 @@ College and university students managing limited and irregular budgets (pocket m
 High school students, fresh graduates, or anyone seeking a simple, private, and completely free expense tracker.
 Beginner Python learners looking for a clean, well-structured, real-world Tkinter + pandas + Matplotlib project to study or modify.
 
+### High-Level Features:-
+
+**Expense Recording**  
+  Quickly add expenses with date, amount, predefined categories (Food, Transportation, Entertainment, Utilities, Other), and optional description, with full input validation.
+
+**Interactive Viewing & Filtering**  
+  View all expenses in a scrollable, sortable table; filter instantly by category and custom date range; real-time total calculation of displayed expenses.
+
+**Instant Analytics**  
+  One-click summary showing total spending, average expense amount, and detailed category-wise breakdown.
+
+**Visual Spending Trends**  
+  Embedded dynamic line chart displaying daily expense totals over time, with properly formatted dates and grid.
+
+**Data Persistence**  
+  Export all records to standard CSV file and import previously saved data with strict format validation for seamless backup and restore.
+
+**User Experience**  
+  Clean tabbed interface (Add → View → Analytics → Export/Import), automatic UI updates, helpful error/success messages, and zero configuration required.
+
+**Privacy & Simplicity**  
+  100% offline, no accounts, no ads, no internet permission, single-file deployment, runs instantly on any system with Python.
