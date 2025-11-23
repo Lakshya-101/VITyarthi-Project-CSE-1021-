@@ -4,7 +4,7 @@
 
 ### Overview of The Project:-
 
-The Finance Expense Management App is a lightweight, fully offline Python desktop application designed specifically for college students to track and manage daily expenses effectively. Built with Tkinter, it features a clean tabbed interface allowing users to add expenses, filter and view records, generate basic analytics, visualize spending trends with an embedded line chart which utilizes mathplotlib, and export/import data via CSV. All data is stored in memory using pandas, requiring no internet or database. It promotes financial awareness through simplicity, speed, and portability—ideal for students on a budget.
+The Finance Expense Management App is designed to be a lightweight, fully offline Python desktop application designed for college students to track and manage daily expenses effectively. Built with Tkinter, it features a clean tabbed interface allowing users to add expenses, filter and view records, generate basic analytics, visualize spending trends with an embedded line chart which utilizes mathplotlib, and export/import data via CSV. All data is stored in memory using pandas, requiring no internet or database. It promotes financial awareness through simplicity, speed, and portability—ideal for students on a budget.
 
 ### Features:-
 
@@ -26,7 +26,7 @@ The Finance Expense Management App is a lightweight, fully offline Python deskto
 - **Analytics**  
   One-click generation of key financial insights:  
   - Total and average expense amounts  
-  - Detailed breakdown of spending by category (e.g., Food: $180.00)  
+  - Detailed breakdown of spending by category (e.g., Food: ₹180.00)  
   Results displayed in a clear, readable text area.
 
 - **Graphical Visualization**  
