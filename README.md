@@ -1,13 +1,13 @@
 # VITyarthi-Project-CSE-1021
 VITyarthi Project - 
 
-Project Title - Finance Expense management app
+### Project Title - Finance Expense management app
 
-Overview of The Project:-
+### Overview of The Project:-
 
 The Finance Expense Management App is a lightweight, fully offline Python desktop application designed specifically for college students to track and manage daily expenses effectively. Built with Tkinter, it features a clean tabbed interface allowing users to add expenses, filter and view records, generate basic analytics, visualize spending trends with an embedded line chart which utilizes mathplotlib, and export/import data via CSV. All data is stored in memory using pandas, requiring no internet or database. It promotes financial awareness through simplicity, speed, and portability—ideal for students on a budget.
 
-Features:-
+### Features:-
 
 - **Add Expense**  
   User-friendly form to record expenses with automatic validation:  
@@ -49,7 +49,7 @@ Features:-
   - Responsive tabbed interface with automatic UI updates  
   - Lightweight single-file design for easy distribution and use
 
-Technologies/Tools Used:-
+### Technologies/Tools Used:-
 
 - **Python 3.13.9** – Core programming language  
 - **Tkinter** – Standard Python GUI library for building the desktop interface, including ttk for modern-styled widgets and themed components.  
